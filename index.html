@@ -6,20 +6,22 @@
   	<meta name="keywords" content="one, two, three">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>valcom to japouroudi</title>
-		<!-- external CSS link -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@500;600;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
 		<header>
-			<h1 class="game-title">Japouroudi</h1>
+			<h1 id="game-title">Japouroudi</h1>
 			<h2 id="score">0</h2>
 		</header>
 		<section id="gameboard">
-			<section id="row-categories"></section>
-			<section id="grid-clues"></section>
+			<section id="category-row"></section>
+			<section id="clue-grid"></section>
 		</section>
-		<footer class="inputs">
+		<footer id="inputs">
 			<button type="button" id="start-game">Start New Game</button>
 		</footer>
 		<script type="text/javascript" src="js/jeopardy.js"></script>
