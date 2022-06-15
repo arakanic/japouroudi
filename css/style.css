@@ -1,0 +1,63 @@
+/* Box Model Hack */
+* {
+  box-sizing: border-box;
+}
+
+/* Clear fix hack */
+.clearfix:after {
+     content: ".";
+     display: block;
+     clear: both;
+     visibility: hidden;
+     line-height: 0;
+     height: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+/******************************************
+/* BASE STYLES
+/*******************************************/
+
+body {
+
+}
+
+h1,
+#score {
+  text-align: center;
+}
+
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+.gameboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  /* border: 5px solid red; */
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  /* border: 5px solid blue; */
+}
+
+.clue,
+.category {
+  width: 14rem;
+  height: 7rem;
+  background-color: rgb(22, 22, 190);
+  color: rgb(218, 166, 26);
+  padding: 0.1rem;
+  margin: 0.5rem;
+}
+
+/******************************************
+/* ADDITIONAL STYLES
+/*******************************************/
