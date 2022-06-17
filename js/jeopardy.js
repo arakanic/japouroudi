@@ -1,20 +1,19 @@
 const numRows = 5
 const numColumns = 5
+let board = document.getElementById("gameboard")
+let catRow = document.getElementById("category-row")
 let categoryArray = []
 // Select an integer out of 18418 integers representing each Jeopardy category
 const randomInt = () => Math.floor((Math.random() * 18418) + 1)
 
-// Initialize gameboard categories + clues on page load
+// Initialize gameboard categories + clues when new gameboard is clicked
 document.querySelector('button').addEventListener('click', initCategories)
 
 function initCategories() {
-    let catRow = document.getElementById("category-row")
-    // Delete existing categories
+    console.log(catRow)
+    // Reset old gameboard
     if (catRow) {
-        categoryArray = []
-        while (catRow.firstChild) {
-            catRow.removeChild(catRow.firstChild);
-        }
+        resetBoard()
     }
     // Create category boxes
     for (let b = 0; b < numColumns; b++) {
@@ -26,11 +25,6 @@ function initCategories() {
 }
 
 function initClues() {
-    let board = document.getElementById("gameboard")
-    // Delete existing clues
-    let clueRows = document.querySelectorAll('.clue-row')
-    clueRows.forEach(row => row.remove())
-
     // Create a number of rows...
     for (let r = 0; r < numRows; r++) {
         let row = document.createElement('div')
@@ -93,13 +87,47 @@ function getClue(event) {
     // Get array of clues from categoryArray for the relevant category (at box index)
     let cluesList = categoryArray[index].clues
     // Find first clue object from array that is worth value of box
-    let clue = cluesList.find(obj => {
-        return obj.value == boxValue
-    })
-    
+    let clue = cluesList.find(obj => obj.value == boxValue)
+    // Display question, answer
     displayQuestion(clue, child, boxValue)
 }
 
-// function displayQuestion() {
+function displayQuestion(clue, target, boxValue) {
+    // TO-DO: Modify answer regex to parse answer better
+    // Also, change to display question on DOM 
+    let userAnswer = prompt(clue.question).toLowerCase()
+    let correctAnswer = clue.answer.toLowerCase().replace(/<\/?[^>]+(>|$)/g, "")
+    let maxPoints = Number(boxValue)
+    target.innerHTML = clue.answer
+    target.removeEventListener('click', getClue, false)
+    evaluateAnswer(userAnswer, correctAnswer, maxPoints)
+}
 
-// }
+function evaluateAnswer(userAnswer, correctAnswer, maxPoints) {
+    let checkAnswer = (userAnswer == correctAnswer) ? 'correct' : 'incorrect'
+    let confirmAnswer = confirm(`For ${maxPoints}, you answered "${userAnswer}", and the correct answer was "${correctAnswer}". Your answer appears to be ${checkAnswer}. Hit OK if you accept or Cancel if the answer was not evaluated properly.`)
+    // Award points
+    awardPoints(userAnswer, correctAnswer, maxPoints)
+}
+// This needs to be worked out...
+function awardPoints(checkAnswer, confirmAnswer, maxPoints) {
+    if (!(checkAnswer == 'incorrect' && confirmAnswer == true)) {
+        let target = document.getElementById('score')
+        let updatedScore = Number(target.innerText) + maxPoints
+        target.innerText = updatedScore
+    }
+    else {
+        alert('No points awarded.')
+    }
+}
+
+function resetBoard() {
+    // Delete clues
+    let clueRows = document.querySelectorAll('.clue-row')
+    clueRows.forEach(row => row.remove())
+    // Delete categories
+    categoryArray = []
+    while (catRow.firstChild) {
+        catRow.removeChild(catRow.firstChild);
+    }
+}
